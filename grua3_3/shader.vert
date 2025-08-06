@@ -21,9 +21,13 @@ uniform mat4 projection;
 
 void main()
 {
+    // Calculamos la posición final del vértice en pantalla (clip space)
     gl_Position = projection * view * model * vec4(aPos, 1.0f);
-        vec3 Normal = mat3(transpose(inverse(model))) * aNormal;
-        FragPos = vec3(model * vec4(aPos, 1.0)); 
+     // Transformamos la normal con la matriz inversa transpuesta del modelo
+    // Esto es necesario para conservar la dirección correcta de la normal tras escalados o rotaciones no uniformes
+    vec3 Normal = mat3(transpose(inverse(model))) * aNormal;
+     // Calculamos la posición del fragmento en el espacio mundo (para iluminación luego)
+    FragPos = vec3(model * vec4(aPos, 1.0)); 
     ourNormal = Normal;
     ourColor = Color;
     TexCoord = aTexCoord;
